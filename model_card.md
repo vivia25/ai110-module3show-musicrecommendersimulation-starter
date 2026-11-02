@@ -21,16 +21,23 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+Think of it as a judge who gives every song in the catalog points for how well it fits what you asked for, then shows you the songs with the most points.
 
-Prompts:  
+**What you tell it.** Three things: a favorite genre (like pop), a favorite mood (like happy), and how energetic you want the music to feel, on a scale from calm (0) to intense (1).
 
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
+**How a song earns points.**
 
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+- **Genre:** a song gets 1 point if its genre is exactly the one you picked.
+- **Mood:** a song gets 1.5 points if its mood is exactly the one you picked. Mood counts a little more than genre because only a few songs share a genre in this small catalog, while moods overlap across more songs.
+- **Energy:** up to 2 points, depending on how *close* the song's energy is to your target. A perfect match earns the full 2 points, and the further away it is, the fewer points it earns. Closeness matters here, not "more is better": someone who wants calm music is not rewarded for a loud song.
+
+The most a song can score is 4.5 points. Every song also gets a short list of reasons, such as "mood match: happy (+1.5)", so you can see exactly why it scored what it did.
+
+**How the final list is chosen.** Scoring and picking are two separate steps. First, every song is scored on its own. Then all the scores are lined up from highest to lowest, and the top five are shown. Scoring alone would leave you with a pile of numbers, and picking alone would have nothing to sort by.
+
+**What changed from the starter.** The starter code returned the first few songs in the file without judging them. This version loads the song data and turns the numbers into real numbers, then scores each song with the rules above and sorts the results. It also explains each recommendation.
+
+**Where it falls short.** Genre and mood must match exactly, so "indie pop" gets no credit for being close to "pop". Only energy is measured on a sliding scale, so two songs with the same energy but a different feel (bright versus dark) look the same to it. Other song details in the data, such as tempo, how bright the song sounds, and how acoustic it is, are not used yet.
 
 ---
 
